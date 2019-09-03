@@ -7,10 +7,13 @@ const resolve = (...args) => {
 
 module.exports = {
     mode: "development",
-    entry: './src/main.js',
+    entry: {
+        index: './src/main.js',
+        router: './src/router.js'
+    },
     output: {
         path: resolve('dist'),
-        filename: 'bound.js',
+        filename: '[name].bound.js',
     },
     devtool: "source-map",
     module: {
@@ -32,7 +35,13 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: "index.html",
-            template: resolve('./index.html')
+            template: resolve('./index.html'),
+            chunks: ['index']
+        }),
+        new HtmlWebpackPlugin({
+            filename: "router.html",
+            template: resolve('./index.html'),
+            chunks: ['router']
         })
     ]
 }
