@@ -21,6 +21,7 @@ export default class HashRouter extends Component {
             location: this.state.location,
             history: {
                 push: (path) => {
+                    location.hash = '#' + path;
                     this.setState({location: {path}})
                 }
             }
@@ -29,15 +30,17 @@ export default class HashRouter extends Component {
 
     componentDidMount() {
         let {hash} = location
+        hash = hash === '' || hash === '#/' ? '#/home' : hash
+        location.hash = hash;
         this.setState({location: {path: hash.slice(1)}})
         const handle = (e) => {
-            console.log(e);
+            console.log('hashchange', e, location);
         }
-        window.addEventListener('hashchange ', handle)
+        window.addEventListener('hashchange', handle);
     }
 
 
     render() {
-        return <div>{this.props.children}</div>
+        return <div className="container">{this.props.children}</div>
     }
 }

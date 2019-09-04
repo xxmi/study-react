@@ -24,6 +24,10 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'less-loader']
             },
             {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            },
+            {
                 test: /\.js$/,
                 include: [resolve('./src')],
                 exclude: [/node_modules/],

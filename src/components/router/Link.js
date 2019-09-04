@@ -1,15 +1,22 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 export default class Link extends Component {
-  constructor(props) {
-    super(props);
-  }
 
-  handleClick = () => {
+    static contextTypes = {
+        location: PropTypes.object,
+        history: PropTypes.object,
+    }
 
-  };
+    constructor(props) {
+        super(props);
+    }
 
-  render() {
-    return <a onClick={this.handleClick}>{this.props.children}</a>;
-  }
+    handleClick = () => {
+        this.context.history.push(this.props.to)
+    };
+
+    render() {
+        return <a className="nav-link" style={{cursor: 'pointer'}} onClick={this.handleClick}>{this.props.children}</a>;
+    }
 }
