@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import pathToRegexp from 'path-to-regexp';
 
 export default class Route extends Component {
   static contextTypes = {
@@ -9,6 +10,10 @@ export default class Route extends Component {
 
   constructor(props) {
     super(props);
+    let keys = [];
+    this.regexp = pathToRegexp(this.props.path, keys, { end: false });
+    console.log(keys);
+    // this.keys = keys.map()
   }
 
   render() {
