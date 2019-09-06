@@ -1,24 +1,43 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import pathToRegexp from 'path-to-regexp';
 
 export default class Route extends Component {
-  static contextTypes = {
-    location: PropTypes.object,
-    history: PropTypes.object,
-  };
+    static contextTypes = {
+        location: PropTypes.object,
+        history: PropTypes.object,
+    };
 
-  constructor(props) {
-    super(props);
-    let keys = [];
-    this.regexp = pathToRegexp(this.props.path, keys, { end: false });
-    console.log(keys);
-    // this.keys = keys.map()
-  }
+    constructor(props) {
+        super(props);
+    }
 
-  render() {
-    let { component: Component } = this.props;
-    return this.context.location.path === this.props.path || this.context.location.path.startsWith(this.props.path) ?
-      <Component/> : null;
-  }
+    render() {
+        let keys = [];
+        let regexp = pathToRegexp(this.props.path, keys, {end: false});
+        keys = keys.map(item => item.name)
+        let {component: Component, render} = this.props;
+        let {location, location: {path}, history} = this.context;
+        let result = path.match(regexp);
+        if (!result && !render) return null;
+
+        let [url, ...values] = result;
+
+        let props = {
+            location,
+            history,
+            match: {
+                url,
+                path,
+                params: keys.reduce((memo, key, index) => {
+                    memo[key] = values[index]
+                    return memo;
+                }, {})
+            }
+        };
+        if (Component) {
+            return <Component {...props}/>
+        }
+        return render(props);
+    }
 }

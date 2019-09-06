@@ -7,13 +7,19 @@ import App from './components/App';
 import Home from './components/Home';
 import User from './components/User';
 import Profile from './components/Profile';
+import Switch from "./Switch";
+import Protected from "./Protected";
+import Login from "./components/Login";
 
 ReactDOM.render(
-  <HashRouter>
-    <App>
-      <Route path="/home" component={Home}/>
-      <Route path="/user" component={User}/>
-      <Route path="/profile" component={Profile}/>
-    </App>
-  </HashRouter>
-  , document.querySelector('#root'));
+    <HashRouter>
+        <App>
+            <Switch>
+                <Route path="/home" component={Home}/>
+                <Route path="/user" component={User}/>
+                <Route path="/login" component={Login}/>
+                <Protected path="/profile" component={Profile}/>
+            </Switch>
+        </App>
+    </HashRouter>
+    , document.querySelector('#root'));
